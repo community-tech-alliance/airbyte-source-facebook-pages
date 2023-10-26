@@ -3,3 +3,4 @@ secrets
 .idea
 *.egg-info
 */__pycache__
+.venv/**/**
