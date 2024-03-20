@@ -236,8 +236,6 @@ definitions:
               'post_impressions_paid_unique',
               'post_impressions_fan',
               'post_impressions_fan_unique',
-              'post_impressions_fan_paid',
-              'post_impressions_fan_paid_unique',
               'post_impressions_organic',
               'post_impressions_organic_unique',
               'post_impressions_viral',
