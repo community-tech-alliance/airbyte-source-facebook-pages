@@ -26,24 +26,30 @@ and place them into `secrets/config.json`.
 
 #### Build
 First, make sure you build the latest Docker image:
-```
-docker build . -t airbyte/source-facebook-pages:dev
+
+**Check default buildx builder:**
+```shell
+docker buildx ls
 ```
 
-You can also build the connector image via Gradle:
+**If something other than 'mybuilder' is starred, run:**
+```shell
+docker buildx create --name mybuilder --bootstrap --use
 ```
-./gradlew :airbyte-integrations:connectors:source-facebook-pages:airbyteDocker
+
+**Then run this command to tag the desired image (this is what you'll use going forward):**
+```shell
+docker buildx build \
+--platform=linux/amd64,linux/arm64,linux/arm/v7 . -t communitytechalliance/source-facebook-pages:0.0.10 --push
 ```
-When building via Gradle, the docker image name and tag, respectively, are the values of the `io.airbyte.name` and `io.airbyte.version` `LABEL`s in
-the Dockerfile.
 
 #### Run
 Then run any of the connector commands as follows:
 ```
-docker run --rm airbyte/source-facebook-pages:dev spec
-docker run --rm -v $(pwd)/secrets:/secrets airbyte/source-facebook-pages:dev check --config /secrets/config.json
-docker run --rm -v $(pwd)/secrets:/secrets airbyte/source-facebook-pages:dev discover --config /secrets/config.json
-docker run --rm -v $(pwd)/secrets:/secrets -v $(pwd)/integration_tests:/integration_tests airbyte/source-facebook-pages:dev read --config /secrets/config.json --catalog /integration_tests/configured_catalog.json
+docker run --rm communitytechalliance/source-facebook-pages:0.0.10 spec
+docker run --rm -v $(pwd)/secrets:/secrets communitytechalliance/source-facebook-pages:0.0.10 check --config /secrets/config.json
+docker run --rm -v $(pwd)/secrets:/secrets communitytechalliance/source-facebook-pages:0.0.10 discover --config /secrets/config.json
+docker run --rm -v $(pwd)/secrets:/secrets -v $(pwd)/integration_tests:/integration_tests communitytechalliance/source-facebook-pages:0.0.10 read --config /secrets/config.json --catalog /integration_tests/configured_catalog.json
 ```
 ## Testing
 
