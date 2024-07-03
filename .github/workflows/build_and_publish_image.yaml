@@ -31,4 +31,5 @@ jobs:
     
     - name: Push image to Docker Hub
       run: |
+        COMMIT_HASH=$(echo ${{ github.sha }} | cut -c1-6)
         docker push communitytechalliance/source-facebook-pages:$COMMIT_HASH
