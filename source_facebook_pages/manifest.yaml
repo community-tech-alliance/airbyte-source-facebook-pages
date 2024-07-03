@@ -124,7 +124,6 @@ definitions:
               'page_token',
               'parking',
               'payment_options',
-              'personal_info',
               'personal_interests',
               'pharma_safety_info',
               'phone',
