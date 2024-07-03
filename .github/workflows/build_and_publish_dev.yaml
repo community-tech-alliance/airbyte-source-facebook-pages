@@ -1,0 +1,32 @@
+name: Build image (Dev)
+
+on:
+  pull_request:
+    types: [labeled, opened, synchronize, reopened]
+
+jobs:
+  publish-source-image:
+    if: ${{ contains(github.event.pull_request.labels.*.name,'dev_deploy') }}
+    runs-on: ubuntu-latest
+    environment:
+      prod
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Log in to Docker Hub
+      run: |
+        echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u communitytechalliance --password-stdin
+      
+    - name: Build and tag image
+      run: |
+        docker build . -t communitytechalliance/airbyte-source-facebook-pages:dev-latest
+
+    - name: Push image to Docker Hub
+      run: |
+        docker push communitytechalliance/airbyte-source-facebook-pages:dev-latest
