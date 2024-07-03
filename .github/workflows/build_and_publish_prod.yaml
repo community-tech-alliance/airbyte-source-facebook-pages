@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  publish-source-stackadapt-image:
+  publish-source-facebook-pages-image:
     runs-on: ubuntu-latest
     environment:
       prod
@@ -25,8 +25,8 @@ jobs:
       
     - name: Build and tag image
       run: |
-        docker build . -t communitytechalliance/source-stackadapt:latest
+        docker build . -t communitytechalliance/airbyte-source-facebook-pages:latest
 
     - name: Push image to Docker Hub
       run: |
-        docker push communitytechalliance/source-stackadapt:latest
+        docker push communitytechalliance/airbyte-source-facebook-pages:latest
