@@ -25,8 +25,8 @@ jobs:
       
     - name: Build and tag image
       run: |
-        docker build . -t communitytechalliance/airbyte-source-facebook-pages:latest
+        docker build . -t communitytechalliance/source-facebook-pages:latest
 
     - name: Push image to Docker Hub
       run: |
-        docker push communitytechalliance/airbyte-source-facebook-pages:latest
+        docker push communitytechalliance/source-facebook-pages:latest
