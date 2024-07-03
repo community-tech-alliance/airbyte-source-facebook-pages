@@ -170,7 +170,6 @@ definitions:
               'events',
               'feed',
               'global_brand_children',
-              'groups',
               'image_copyrights',
               'indexed_videos',
               'likes',

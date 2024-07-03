@@ -1,0 +1,35 @@
+name: Build image and push to dockerhub
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  publish-source-facebook-pages-image:
+    runs-on: ubuntu-latest
+    if: ${{ contains(github.event.pull_request.labels.*.name,'dev_deploy') }}
+    environment:
+      prod    #the dockerhub key is the same, update this if new secrets diverge 
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Log in to Docker Hub
+      run: |
+        echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u communitytechalliance --password-stdin
+      
+    - name: Build and tag image
+      run: |
+        COMMIT_HASH=$(echo ${{ github.sha }} | cut -c1-6)
+        docker build . -t communitytechalliance/source-facebook-pages:$COMMIT_HASH
+    
+    - name: Push image to Docker Hub
+      run: |
+        COMMIT_HASH=$(echo ${{ github.sha }} | cut -c1-6)
+        docker push communitytechalliance/source-facebook-pages:$COMMIT_HASH
